@@ -12,8 +12,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: subosito/flutter-action@v2
-        cache: true
-        cache-key: ${{ runner.os }}-pub-cache-${{ hashFiles('pubspec.lock') }}
+        with:
+          cache: true
+          cache-key: ${{ runner.os }}-pub-cache-${{ hashFiles('pubspec.lock') }}
+      - run: |
+          echo CACHE-PATH=${{ steps.flutter-action.outputs.CACHE-PATH }}
+          echo CACHE-KEY=${{ steps.flutter-action.outputs.CACHE-KEY }}
       - run: flutter --version
       - uses: actions/checkout@v3
       - run: flutter pub get
