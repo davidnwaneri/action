@@ -1,6 +1,6 @@
 # action
 
-A new Flutter project.
+Anew Flutter project.
 
 ## Getting Started
 
