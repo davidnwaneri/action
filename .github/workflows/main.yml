@@ -17,6 +17,4 @@ jobs:
         with:
           fatal-infos: true
           fatal-warnings: true
-          # (Optional) The working directory to run the Dart analyzer in
-          # (defaults to `./`).
-          working-directory: ./
+          working-directory: lib/**
