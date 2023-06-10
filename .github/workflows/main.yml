@@ -11,12 +11,11 @@ jobs:
   analyze: # make sure the action works on a clean machine without building
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
       - uses: subosito/flutter-action@v2
       - run: flutter --version
+      - uses: actions/checkout@v3
       - run: flutter pub get
-      - uses: blendthink/elixir@v2
-#      - uses: invertase/github-action-dart-analyzer@v2.0.0
-#        with:
-#          fatal-infos: true
-#          fatal-warnings: true
+      - uses: invertase/github-action-dart-analyzer@v2.0.0
+        with:
+          fatal-infos: true
+          fatal-warnings: true
