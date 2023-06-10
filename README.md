@@ -1,5 +1,7 @@
 # action
 
+![example branch parameter](https://github.com/davidnwaneri/action/actions/workflows/main.yml/badge.svg?branch=main)
+
 A new Flutter project.
 
 ## Getting Started
