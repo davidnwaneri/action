@@ -13,7 +13,7 @@ jobs:
     steps:
       - uses: subosito/flutter-action@v2
         cache: true
-        key: ${{ runner.os }}-pub-cache-${{ hashFiles('pubspec.lock') }}
+        cache-key: ${{ runner.os }}-pub-cache-${{ hashFiles('pubspec.lock') }}
       - run: flutter --version
       - uses: actions/checkout@v3
       - run: flutter pub get
