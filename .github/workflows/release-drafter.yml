@@ -1,0 +1,83 @@
+name: Release Draft
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+
+jobs:
+  semantic-pull-request:
+    uses: VeryGoodOpenSource/very_good_workflows/.github/workflows/semantic_pull_request.yml@v1
+  draft-release:
+    needs: semantic-pull-request
+    if: ${{ github.event_name == 'pull_request' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: release-drafter/release-drafter@v5
+#        env:
+#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          template: |
+            ## What's Changed
+
+            $CHANGES
+            
+            $CONTRIBUTORS
+          commitish: main
+          name-template: 'v$RESOLVED_VERSION'
+          tag-template: 'v$RESOLVED_VERSION'
+          categories:
+            - title: '🚨 Breaking Changes'
+              label: 'breaking-change'
+            - title: '🚀 Features'
+              label: enhancement
+            - title: '🐛 Bug Fixes'
+              label: bug
+            - title: '🧹 Maintenance'
+              collapse-after: 3
+              labels:
+                - maintenance
+                - chore
+                - style
+                - refactor
+                - perf
+                - test
+                - workflow
+                - documentation
+                - dependencies
+          autolabeler:
+            - label: 'breaking-change'
+              title:
+                - '/!:/i'
+              body:
+                - '/BREAKING CHANGE/i'
+            - label: 'enhancement'
+              title:
+                - '/feat:/i'
+              branch:
+                - '/feature\/.+/'
+                - '/feat\/.+/'
+                - '/feat/i'
+            - label: 'bug'
+              title:
+                - '/fix:/i'
+              branch:
+                - '/fix\/.+/'
+                - '/fix/i'
+            - label: 'maintenance'
+              files:
+                - '*.md'
+                - '.gitIgnore'
+              title:
+                - '/chore:/i'
+            - label: 'workflow'
+              title:
+                - '/ci:/i'
+            - label: 'style'
+              title:
+                - '/style:/i'
+            - label: documentation
+              title:
+                - '/doc:/i'
