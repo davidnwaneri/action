@@ -13,9 +13,11 @@ on:
     branches:
       - main
 
+permissions: write-all
+
 jobs:
   semantic-pull-request:
-    permissions: write-all
+#    permissions: write-all
     runs-on: ubuntu-latest
     if: github.event_name == 'pull_request'
     steps:
