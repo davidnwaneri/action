@@ -9,6 +9,7 @@ on:
       - reopened
       - edited
 
+
   push:
     branches:
       - main
@@ -30,5 +31,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: release-drafter/release-drafter@v5
+        with:
+          commitish: main
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
