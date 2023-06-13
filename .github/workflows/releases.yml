@@ -3,14 +3,20 @@ on:
   pull_request:
     branches:
       - main
+    types:
+      - opened
+      - synchronize
+      - reopened
+      - edited
+
   push:
     branches:
       - main
 
 jobs:
   semantic-pull-request:
-    if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
     steps:
       - uses: amannn/action-semantic-pull-request@v5
         env:
