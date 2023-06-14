@@ -1,0 +1,16 @@
+name: Upgrade Pubspec Version
+on:
+  release:
+    types: [published, edited]
+
+jobs:
+  upgrade-version:
+    permissions: write-all
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: pocket-apps/action-update-version@v1
+        with:
+          files: pubspec.yaml
+          version-regexp: '\d+.\d+.\d+'
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
