@@ -10,9 +10,9 @@ on:
       - edited
 
 
-  push:
-    branches:
-      - main
+#  push:
+#    branches:
+#      - main
 
 permissions: write-all
 
