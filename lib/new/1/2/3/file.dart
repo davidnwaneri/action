@@ -8,3 +8,12 @@ class NewWidget extends StatelessWidget {
     return const Placeholder();
   }
 }
+
+class SecondWidget extends StatelessWidget {
+  const SecondWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Placeholder();
+  }
+}
