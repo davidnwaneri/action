@@ -41,6 +41,13 @@ jobs:
 #      - run: echo ${{ steps.release-drafter.outputs.tag }}
       - run: echo "::set-output name=tag::'${{ steps.release-drafter.outputs.tag_name }}'"
         id: set-output
+  log:
+    needs: draft-release
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo ${{ needs.draft-release.outputs.tag }}
+
+
 #  changelog:
 ##    name: Conventional Changelog Action
 #    needs: semantic-pull-request
