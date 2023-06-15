@@ -1,11 +1,24 @@
 name: Upgrade Pubspec Version
 on:
-  release:
-    branches:
-      - main
-    types: [created, edited]
+  workflow_run:
+    workflows: ["Release Draft"]
+    types:
+      - completed
+
+#  release:
+#    branches:
+#      - main
+#    types: [created, edited]
 
 jobs:
+#  check-for-draft-release:
+#    runs-on: ubuntu-latest
+#    steps:
+#      - uses: cardinalby/git-get-release-action@v1
+#        env:
+#          GITHUB_TOKEN: ${{ github.token }}
+#        with:
+#          tag: '1.2.3'
   bump-version:
     permissions: write-all
     runs-on: ubuntu-latest
