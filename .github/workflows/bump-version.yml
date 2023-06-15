@@ -24,7 +24,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: echo 'Bumping version'
-      - run: echo ${{ jobs.draft-release.output.tag_name }}
+      - run: echo ${{ jobs.draft-release.output.tag }}
 #      - uses: actions/checkout@v3
 #      - name: Create Pull Request to bump version in pubspec.yaml
 #        uses: peter-evans/create-pull-request@v5
