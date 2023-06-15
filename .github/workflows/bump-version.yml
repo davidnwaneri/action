@@ -1,6 +1,8 @@
 name: Upgrade Pubspec Version
 on:
   release:
+    branches:
+      - main
     types: [created, edited]
 
 jobs:

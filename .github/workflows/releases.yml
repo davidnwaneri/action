@@ -35,7 +35,7 @@ jobs:
       - uses: release-drafter/release-drafter@v5
         id: release-drafter
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.PAT }}
 #  changelog:
 ##    name: Conventional Changelog Action
 #    needs: semantic-pull-request
