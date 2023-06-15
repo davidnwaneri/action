@@ -8,8 +8,8 @@ jobs:
     permissions: write-all
     runs-on: ubuntu-latest
     steps:
-      - run: echo ${{ jobs.draft-release.output.tag_name }}
       - run: echo 'Bumping version'
+      - run: echo ${{ jobs.draft-release.output.tag_name }}
 #      - uses: actions/checkout@v3
 #      - name: Create Pull Request to bump version in pubspec.yaml
 #        uses: peter-evans/create-pull-request@v5
