@@ -40,7 +40,7 @@ jobs:
       - run: echo ${{ steps.release-drafter.outputs.tag_name }}
 #      - run: echo ${{ steps.release-drafter.outputs.tag }}
 #      - run: echo "::set-output name=tag::'${{ steps.release-drafter.outputs.tag_name }}'"
-      - run: echo "{tag}='${{ steps.release-drafter.outputs.tag_name }}'" >> $GITHUB_OUTPUT
+      - run: echo "tag='${{ steps.release-drafter.outputs.tag_name }}'" >> $GITHUB_OUTPUT
         id: set-output
   log:
     needs: draft-release
