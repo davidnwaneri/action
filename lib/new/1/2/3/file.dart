@@ -26,3 +26,12 @@ class ThirdWidget extends StatelessWidget {
     return const Scaffold();
   }
 }
+
+class FourthWidget extends StatelessWidget {
+  const FourthWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Scaffold();
+  }
+}
