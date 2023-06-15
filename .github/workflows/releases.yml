@@ -32,10 +32,13 @@ jobs:
     outputs:
       tag_name: ${{ steps.release-drafter.outputs.tag_name }}
     steps:
-      - uses: release-drafter/release-drafter@v5
+      - name: Draft release
+        uses: release-drafter/release-drafter@v5
         id: release-drafter
         env:
-          GITHUB_TOKEN: ${{ secrets.PAT }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - run: echo ${{ steps.release-drafter.outputs.tag_name }}
+      - run: echo $tag_name
 #  changelog:
 ##    name: Conventional Changelog Action
 #    needs: semantic-pull-request
