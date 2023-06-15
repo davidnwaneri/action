@@ -30,7 +30,7 @@ jobs:
 #    if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     outputs:
-      tag: ${{ steps.release-drafter.outputs.tag_name }}
+      tag: ${{ steps.set-output.outputs.tag }}
     steps:
       - name: Draft release
         uses: release-drafter/release-drafter@v5
@@ -38,8 +38,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - run: echo ${{ steps.release-drafter.outputs.tag_name }}
-      - run: echo ${{ steps.release-drafter.outputs.tag }}
-#      - run: echo '::set-output name=tag::${{ steps.release-drafter.outputs.tag_name }}'
+#      - run: echo ${{ steps.release-drafter.outputs.tag }}
+      - run: echo "::set-output name=tag::'${{ steps.release-drafter.outputs.tag_name }}'"
+        id: set-output
 #  changelog:
 ##    name: Conventional Changelog Action
 #    needs: semantic-pull-request
