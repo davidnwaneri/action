@@ -62,3 +62,13 @@ class SeventhWidget extends StatelessWidget {
     return const Scaffold();
   }
 }
+
+class EightWidget extends StatelessWidget {
+  const EightWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Scaffold();
+  }
+}
+
