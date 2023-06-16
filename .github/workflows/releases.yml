@@ -58,7 +58,8 @@ jobs:
         with:
           draft: true
           doNotFailIfNotFound: true
-          tag: ${{ needs.draft-release.outputs.tag }}
+          releaseName: ${{ needs.draft-release.outputs.tag }}
+#          tag: ${{ needs.draft-release.outputs.tag }}
       - name: Check for draft release
         id: check-for-draft-release
         run: |
