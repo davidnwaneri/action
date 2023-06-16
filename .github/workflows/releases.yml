@@ -67,6 +67,7 @@ jobs:
         with:
           token: ${{ steps.generate-token.outputs.token }}
           branch: "bump-pubspec-version"
+          base: main
           commit-message: "build: bump pubspec version to ${{ env.TAG }}"
           title: "build: bump pubspec version to ${{ env.TAG }}"
           labels: "bump-pubspec-version"
