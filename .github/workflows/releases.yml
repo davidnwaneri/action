@@ -53,24 +53,32 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - run: |
-          gh release list | grep -n ${{ needs.draft-release.outputs.tag }}
-          gh release list | grep -in draft
+          tag=gh release list | grep -n ${{ needs.draft-release.outputs.tag }}
+          draft=gh release list | grep -in draft
+          
+          if [[ $tag == $draft ]]; then
+            echo "tag='${{ needs.draft-release.outputs.tag }}'" >> $GITHUB_OUTPUT
+            echo "draft='true'" >> $GITHUB_OUTPUT
+          else
+            echo "tag='${{ needs.draft-release.outputs.tag }}'" >> $GITHUB_OUTPUT
+            echo "draft='false'" >> $GITHUB_OUTPUT
+          fi
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - uses: cardinalby/git-get-release-action@v1
-        id: git-get-release
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
-        with:
-          draft: true
-          doNotFailIfNotFound: true
-          releaseName: ${{ needs.draft-release.outputs.tag }}
-#          tag: ${{ needs.draft-release.outputs.tag }}
-      - name: Check for draft release
-        id: check-for-draft-release
-        run: |
-          echo "draft='${{ steps.git-get-release.outputs.draft }}'" >> $GITHUB_OUTPUT
-          echo "tag='${{ steps.git-get-release.outputs.tag_name }}'" >> $GITHUB_OUTPUT
+#      - uses: cardinalby/git-get-release-action@v1
+#        id: git-get-release
+#        env:
+#          GITHUB_TOKEN: ${{ github.token }}
+#        with:
+#          draft: true
+#          doNotFailIfNotFound: true
+#          releaseName: ${{ needs.draft-release.outputs.tag }}
+##          tag: ${{ needs.draft-release.outputs.tag }}
+#      - name: Check for draft release
+#        id: check-for-draft-release
+#        run: |
+#          echo "draft='${{ steps.git-get-release.outputs.draft }}'" >> $GITHUB_OUTPUT
+#          echo "tag='${{ steps.git-get-release.outputs.tag_name }}'" >> $GITHUB_OUTPUT
 
   bump-version-pr:
     permissions: write-all
