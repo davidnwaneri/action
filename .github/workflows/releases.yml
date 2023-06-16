@@ -53,6 +53,8 @@ jobs:
     steps:
       - run: |
           gh release list
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
       - uses: cardinalby/git-get-release-action@v1
         id: git-get-release
         env:
