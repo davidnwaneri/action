@@ -61,6 +61,7 @@ jobs:
           if [[ $tag == $draft ]]; then
             echo "tag=$TAG" >> $GITHUB_OUTPUT
             echo "draft=true" >> $GITHUB_OUTPUT
+            exit 0
           else
             echo "tag=$TAG" >> $GITHUB_OUTPUT
             echo "draft=false" >> $GITHUB_OUTPUT
