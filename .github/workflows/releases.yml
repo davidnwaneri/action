@@ -54,11 +54,11 @@ jobs:
       - run: |
           gh release list
         env:
-          GITHUB_TOKEN: ${{ github.token }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - uses: cardinalby/git-get-release-action@v1
         id: git-get-release
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ github.token }}
         with:
           draft: true
           doNotFailIfNotFound: true
