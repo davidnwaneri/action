@@ -53,8 +53,8 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - run: |
-          gh release list | grep ${{ needs.draft-release.outputs.tag }}
-          gh release list | grep -i draft
+          gh release list | grep -n ${{ needs.draft-release.outputs.tag }}
+          gh release list | grep -in draft
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - uses: cardinalby/git-get-release-action@v1
