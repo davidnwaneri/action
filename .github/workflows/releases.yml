@@ -63,7 +63,7 @@ jobs:
           cmd: |
             tag=${{ env.TAG }}
             new_tag1=${tag:1}
-            (echo "$tag" | sed "s/[[:alpha:]]//g")
+            echo "$tag" | sed "s/[[:alpha:]]//g"
             new_tag2="1.2.3" yq -i '.version = env(new_tag2)' pubspec.yaml
 #            new_tag2=$(echo "v1.2.3" | sed "s/[[:alpha:]]//g")
 #          cmd: yq -i '.version = ${{ env.TAG }}.match('^\d+\.\d+\.\d+(?:[+-]\S+)?$')' pubspec.yaml
