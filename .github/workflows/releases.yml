@@ -45,7 +45,8 @@ jobs:
     permissions: write-all
     needs: draft-release
     runs-on: ubuntu-latest
-    if: contains(needs.draft-release.outputs.url, 'untagged') && github.event.pull_request.merged
+    if: contains(needs.draft-release.outputs.url, 'untagged')
+#    && github.event.pull_request.merged == true
     env:
       TAG: ${{ needs.check-for-draft-release.outputs.tag }}
     steps:
