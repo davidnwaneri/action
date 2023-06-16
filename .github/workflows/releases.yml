@@ -50,12 +50,14 @@ jobs:
     outputs:
       draft-is-present: ${{ steps.check-for-draft-release.outputs.draft }}
       tag: ${{ steps.check-for-draft-release.outputs.tag }}
-    env:
-      TAG: ${{ needs.draft-release.outputs.tag }}
-      token: ${{ secrets.GITHUB_TOKEN }}
+#    env:
+#      TAG: ${{ needs.draft-release.outputs.tag }}
+#      token: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+#        with:
+
       - name: Check for draft release
         id: check-for-draft-release
         env:
