@@ -45,7 +45,7 @@ jobs:
     permissions: write-all
     needs: draft-release
     runs-on: ubuntu-latest
-    if: contains(needs.draft-release.outputs.url, 'untagged')
+    if: contains(needs.draft-release.outputs.url, 'untagged') && github.event.pull_request.merged == true
     env:
       TAG: ${{ needs.check-for-draft-release.outputs.tag }}
     steps:
@@ -59,14 +59,14 @@ jobs:
       - name: Bump version
         uses: mikefarah/yq@master
         with:
-          cmd: yq -i '.version = "$TAG"' pubspec.yaml
+          cmd: yq -i '.version = "${{ env.TAG }}"' pubspec.yaml
       - name: Create Pull Request to bump version in pubspec.yaml
         uses: peter-evans/create-pull-request@v5
         with:
           token: ${{ steps.generate-token.outputs.token }}
           branch: "bump-pubspec-version"
-          commit-message: "build: bump pubspec version to $TAG"
-          title: "build: bump pubspec version to $TAG"
+          commit-message: "build: bump pubspec version to ${{ env.TAG }}"
+          title: "build: bump pubspec version to ${{ env.TAG }}"
           labels: "bump-pubspec-version"
           reviewers: "davidnwaneri"
           assignees: "davidnwaneri"
