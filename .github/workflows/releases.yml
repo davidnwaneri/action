@@ -46,32 +46,48 @@ jobs:
     env:
       TAG: ${{ needs.draft-release.outputs.tag }}
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+#      - name: Checkout code
+#        uses: actions/checkout@v3
+      - uses: cardinalby/git-get-release-action@v1
+        id: git-get-release
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          draft: true
+          doNotFailIfNotFound: true
+          releaseName: $TAG
+          tag: $TAG
       - name: Check for draft release
         id: check-for-draft-release
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          echo 'Checking for draft release'
-          tag=$(gh release list | grep -n $TAG)
-          draft=$(gh release list | grep -in draft)
+          echo "draft='${{ steps.git-get-release.outputs.draft }}'" >> $GITHUB_OUTPUT
+          echo "tag='${{ steps.git-get-release.outputs.tag_name }}'" >> $GITHUB_OUTPUT
+          echo ${{ steps.git-get-release.outputs }}
 
-          echo $tag
-          echo $draft
-
-          echo "Running conditionals"
-          if [[ $tag == $draft ]]; then
-            echo "First conditional true"
-            echo "tag=$TAG" >> $GITHUB_OUTPUT
-            echo "draft=true" >> $GITHUB_OUTPUT
-            exit 0
-          else
-            echo "Second conditional true"
-            echo "tag=$TAG" >> $GITHUB_OUTPUT
-            echo "draft=false" >> $GITHUB_OUTPUT
-          fi
-          echo "Finished conditionals"
+#      - name: Check for draft release
+#        id: check-for-draft-release
+#        env:
+#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#        run: |
+#          echo 'Checking for draft release'
+#          tag=$(gh release list | grep -n $TAG)
+#          draft=$(gh release list | grep -in draft)
+#
+#          echo $tag
+#          echo $draft
+#
+#          echo "Running conditionals"
+#          if [[ $tag == $draft ]]; then
+#            echo "First conditional true"
+#            echo "tag=$TAG" >> $GITHUB_OUTPUT
+#            echo "draft=true" >> $GITHUB_OUTPUT
+#            exit 0
+#          else
+#            echo "Second conditional true"
+#            echo "tag=$TAG" >> $GITHUB_OUTPUT
+#            echo "draft=false" >> $GITHUB_OUTPUT
+#          fi
+#          echo "Finished conditionals"
 
 #      - uses: cardinalby/git-get-release-action@v1
 #        id: git-get-release
