@@ -51,6 +51,7 @@ jobs:
       draft-is-present: ${{ steps.check-for-draft-release.outputs.draft }}
       tag: ${{ steps.check-for-draft-release.outputs.tag }}
     steps:
+      - uses: actions/checkout@v3
       - run: |
           gh release list
         env:
