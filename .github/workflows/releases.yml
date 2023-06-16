@@ -112,10 +112,10 @@ jobs:
         with:
           app_id: ${{ secrets.APP_ID }}
           private_key: ${{ secrets.APP_PRIVATE_KEY }}
-      - name: Bump version
-        uses: mikefarah/yq@master
-        with:
-          cmd: yq -i '.version = "$TAG"' pubspec.yaml
+#      - name: Bump version
+#        uses: mikefarah/yq@master
+#        with:
+#          cmd: yq -i '.version = "$TAG"' pubspec.yaml
       - name: Create Pull Request to bump version in pubspec.yaml
         uses: peter-evans/create-pull-request@v5
         with:
