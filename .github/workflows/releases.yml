@@ -60,7 +60,7 @@ jobs:
       - name: Bump version
         uses: mikefarah/yq@master
         with:
-          cmd: yq -i '.version = "${{ env.TAG }}"' pubspec.yaml
+          cmd: yq -i '.version = ["${{ env.TAG }}" | sed 's/^v//']' pubspec.yaml
       - name: Create Pull Request to bump version in pubspec.yaml
         uses: peter-evans/create-pull-request@v5
         with:
