@@ -52,12 +52,6 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-#      - uses: actions-ecosystem/action-regex-match@v2
-#        id: regex-match
-#        with:
-#          text: ${{ env.TAG }}
-#          regex: '^\d+\.\d+\.\d+(?:[+-]\S+)?$'
-#      - run: echo ${{ steps.regex-match.outputs.match }}
       - uses: tibdex/github-app-token@v1
         id: generate-token
         with:
@@ -69,8 +63,8 @@ jobs:
           cmd: |
             tag=${{ env.TAG }}
             new_tag1=${tag:1}
-#            new_tag2=$(echo "v1.2.3" | sed "s/[[:alpha:]]//g")
             new_tag2="1.2.3" yq -i '.version = env(new_tag2)' pubspec.yaml
+#            new_tag2=$(echo "v1.2.3" | sed "s/[[:alpha:]]//g")
 #          cmd: yq -i '.version = ${{ env.TAG }}.match('^\d+\.\d+\.\d+(?:[+-]\S+)?$')' pubspec.yaml
       - name: Create Pull Request to bump version in pubspec.yaml
         uses: peter-evans/create-pull-request@v5
@@ -82,91 +76,3 @@ jobs:
           labels: "bump-pubspec-version"
           reviewers: "davidnwaneri"
           assignees: "davidnwaneri"
-
-#  check-for-draft-release:
-#    needs: draft-release
-#    runs-on: ubuntu-latest
-#    outputs:
-#      draft-is-present: ${{ steps.check-for-draft-release.outputs.draft }}
-#      tag: ${{ steps.check-for-draft-release.outputs.tag }}
-#    env:
-#      TAG: ${{ needs.draft-release.outputs.tag }}
-#    steps:
-##      - name: Checkout code
-##        uses: actions/checkout@v3
-#      - uses: cardinalby/git-get-release-action@v1
-#        id: git-get-release
-#        env:
-#          GITHUB_TOKEN: ${{ github.token }}
-#        with:
-#          draft: true
-#          doNotFailIfNotFound: true
-#          releaseName: ${{ needs.draft-release.outputs.tag }}
-##          tag: ${{ needs.draft-release.outputs.tag }}
-#      - name: Check for draft release
-#        id: check-for-draft-release
-#        run: |
-#          echo "draft='${{ steps.git-get-release.outputs.draft }}'" >> $GITHUB_OUTPUT
-#          echo "tag='${{ steps.git-get-release.outputs.tag_name }}'" >> $GITHUB_OUTPUT
-#          echo ${{ steps.git-get-release.outputs.draft }}
-#          echo ${{ steps.git-get-release.outputs.id }}
-#          echo ${{ steps.git-get-release.outputs.node_id }}
-#          echo ${{ steps.git-get-release.outputs.tag_name }}
-#          echo ${{ steps.git-get-release.outputs.name }}
-
-#      - name: Check for draft release
-#        id: check-for-draft-release
-#        env:
-#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-#        run: |
-#          echo 'Checking for draft release'
-#          tag=$(gh release list | grep -n $TAG)
-#          draft=$(gh release list | grep -in draft)
-#
-#          echo $tag
-#          echo $draft
-#
-#          echo "Running conditionals"
-#          if [[ $tag == $draft ]]; then
-#            echo "First conditional true"
-#            echo "tag=$TAG" >> $GITHUB_OUTPUT
-#            echo "draft=true" >> $GITHUB_OUTPUT
-#            exit 0
-#          else
-#            echo "Second conditional true"
-#            echo "tag=$TAG" >> $GITHUB_OUTPUT
-#            echo "draft=false" >> $GITHUB_OUTPUT
-#          fi
-#          echo "Finished conditionals"
-
-#  log:
-#    needs: draft-release
-#    runs-on: ubuntu-latest
-#    steps:
-#      - run: echo ${{ needs.draft-release.outputs.tag }}
-
-
-#  changelog:
-##    name: Conventional Changelog Action
-#    needs: semantic-pull-request
-#    runs-on: ubuntu-latest
-#    steps:
-#      - name: checkout
-#        uses: actions/checkout@v3
-#      - run: echo ${{ github.ref }}
-#      - uses: "TriPSs/conventional-changelog-action@v3"
-#        with:
-#          github-token: ${{ secrets.github_token }}
-##          git-message: 'chore(release): {version}'
-##          git-user-name: 'Awesome Changelog Action'
-##          git-user-email: 'awesome_changelog@github.actions.com'
-##          preset: 'angular' # default
-##          tag-prefix: 'v' # default
-##          output-file: CHANGELOG.md # default
-#          release-count: '0'
-#          version-file: ./pubspec.yaml
-##          version-path: 'version' # default
-#          skip-on-empty: false
-##          skip-version-file: false # default
-##          skip-commit: false # default
-##          git-branch: main
