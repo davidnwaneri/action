@@ -35,15 +35,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - run: echo ${{ steps.release-drafter.outputs.tag_name }}
-      - run: echo "tag='${{ steps.release-drafter.outputs.tag_name }}'" >> $GITHUB_OUTPUT
+      - name: Set output
         id: set-output
-      - run: |
-          echo '${{ steps.release-drafter.outputs.id }}'
-          echo '${{ steps.release-drafter.outputs.name }}'
-          echo '${{ steps.release-drafter.outputs.tag_name }}'
-          echo '${{ steps.release-drafter.outputs.body }}'
-          echo '${{ steps.release-drafter.outputs.html_url }}'
-          echo '${{ steps.release-drafter.outputs.upload_url }}'
+        run: echo "tag='${{ steps.release-drafter.outputs.tag_name }}'" >> $GITHUB_OUTPUT
   check-for-draft-release:
     needs: draft-release
     runs-on: ubuntu-latest
