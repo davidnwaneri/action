@@ -70,7 +70,7 @@ jobs:
             tag=${{ env.TAG }}
             new_tag1=${tag:1}
             new_tag2=$(echo "v1.2.3" | sed "s/[[:alpha:]]//g")
-            yq -i '.version = "$new_tag2"' pubspec.yaml
+            yq -i '.version = env(new_tag2)' pubspec.yaml
 #          cmd: yq -i '.version = ${{ env.TAG }}.match('^\d+\.\d+\.\d+(?:[+-]\S+)?$')' pubspec.yaml
       - name: Create Pull Request to bump version in pubspec.yaml
         uses: peter-evans/create-pull-request@v5
