@@ -58,7 +58,7 @@ jobs:
       - uses: cardinalby/git-get-release-action@v1
         id: git-get-release
         env:
-          GITHUB_TOKEN: ${{ github.token }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           draft: true
           doNotFailIfNotFound: true
