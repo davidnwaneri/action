@@ -39,49 +39,48 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - run: echo ${{ steps.release-drafter.outputs.tag_name }}
-#      - run: echo ${{ steps.release-drafter.outputs.tag }}
-#      - run: echo "::set-output name=tag::'${{ steps.release-drafter.outputs.tag_name }}'"
       - run: echo "tag='${{ steps.release-drafter.outputs.tag_name }}'" >> $GITHUB_OUTPUT
         id: set-output
+#
+#  check-for-draft-release:
+#    needs: draft-release
+#    runs-on: ubuntu-latest
+#    outputs:
+#      draft-is-present: ${{ steps.check-for-draft-release.outputs.draft }}
+#      tag: ${{ steps.check-for-draft-release.outputs.tag }}
+##    env:
+##      TAG: ${{ needs.draft-release.outputs.tag }}
+##      token: ${{ secrets.GITHUB_TOKEN }}
+#    steps:
+#      - name: Checkout code
+#        uses: actions/checkout@v3
+##        with:
+#
+#      - name: Check for draft release
+#        id: check-for-draft-release
+#        env:
+#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#        run: |
+#          echo 'Checking for draft release'
+#          tag=$(gh release list | grep -n $TAG)
+#          draft=$(gh release list | grep -in draft)
+#
+#          echo $tag
+#          echo $draft
+#
+#          echo "Running conditionals"
+#          if [[ $tag == $draft ]]; then
+#            echo "First conditional true"
+##            echo "tag=$TAG" >> $GITHUB_OUTPUT
+##            echo "draft=true" >> $GITHUB_OUTPUT
+#            exit 0
+#          else
+#            echo "Second conditional true"
+##            echo "tag=$TAG" >> $GITHUB_OUTPUT
+##            echo "draft=false" >> $GITHUB_OUTPUT
+#          fi
+#          echo "Finished conditionals"
 
-  check-for-draft-release:
-    needs: draft-release
-    runs-on: ubuntu-latest
-    outputs:
-      draft-is-present: ${{ steps.check-for-draft-release.outputs.draft }}
-      tag: ${{ steps.check-for-draft-release.outputs.tag }}
-#    env:
-#      TAG: ${{ needs.draft-release.outputs.tag }}
-#      token: ${{ secrets.GITHUB_TOKEN }}
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-#        with:
-
-      - name: Check for draft release
-        id: check-for-draft-release
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          echo "Checking for draft release"
-          tag=$(gh release list | grep -n $TAG)
-          draft=$(gh release list | grep -in draft)
-          
-          echo $tag
-          echo $draft
-          
-          echo "Running conditionals"
-          if [[ $tag == $draft ]]; then
-            echo "First conditional true"
-#            echo "tag=$TAG" >> $GITHUB_OUTPUT
-#            echo "draft=true" >> $GITHUB_OUTPUT
-            exit 0
-          else
-            echo "Second conditional true"
-#            echo "tag=$TAG" >> $GITHUB_OUTPUT
-#            echo "draft=false" >> $GITHUB_OUTPUT
-          fi
-          echo "Finished conditionals"
 #      - uses: cardinalby/git-get-release-action@v1
 #        id: git-get-release
 #        env:
@@ -97,35 +96,36 @@ jobs:
 #          echo "draft='${{ steps.git-get-release.outputs.draft }}'" >> $GITHUB_OUTPUT
 #          echo "tag='${{ steps.git-get-release.outputs.tag_name }}'" >> $GITHUB_OUTPUT
 
-  bump-version-pr:
-    permissions: write-all
-    needs: check-for-draft-release
-    runs-on: ubuntu-latest
-    if: ${{ needs.check-for-draft-release.outputs.draft-is-present == 'true' }}
-    env:
-      TAG: ${{ needs.check-for-draft-release.outputs.tag }}
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-      - uses: tibdex/github-app-token@v1
-        id: generate-token
-        with:
-          app_id: ${{ secrets.APP_ID }}
-          private_key: ${{ secrets.APP_PRIVATE_KEY }}
-#      - name: Bump version
-#        uses: mikefarah/yq@master
+#  bump-version-pr:
+#    permissions: write-all
+#    needs: check-for-draft-release
+#    runs-on: ubuntu-latest
+#    if: ${{ needs.check-for-draft-release.outputs.draft-is-present == 'true' }}
+#    env:
+#      TAG: ${{ needs.check-for-draft-release.outputs.tag }}
+#    steps:
+#      - name: Checkout code
+#        uses: actions/checkout@v3
+#      - uses: tibdex/github-app-token@v1
+#        id: generate-token
 #        with:
-#          cmd: yq -i '.version = "$TAG"' pubspec.yaml
-      - name: Create Pull Request to bump version in pubspec.yaml
-        uses: peter-evans/create-pull-request@v5
-        with:
-          token: ${{ steps.generate-token.outputs.token }}
-          branch: "bump-pubspec-version"
-          commit-message: "build: bump pubspec version to $TAG"
-          title: "build: bump pubspec version to $TAG"
-          labels: "bump-pubspec-version"
-          reviewers: "davidnwaneri"
-          assignees: "davidnwaneri"
+#          app_id: ${{ secrets.APP_ID }}
+#          private_key: ${{ secrets.APP_PRIVATE_KEY }}
+##      - name: Bump version
+##        uses: mikefarah/yq@master
+##        with:
+##          cmd: yq -i '.version = "$TAG"' pubspec.yaml
+#      - name: Create Pull Request to bump version in pubspec.yaml
+#        uses: peter-evans/create-pull-request@v5
+#        with:
+#          token: ${{ steps.generate-token.outputs.token }}
+#          branch: "bump-pubspec-version"
+#          commit-message: "build: bump pubspec version to $TAG"
+#          title: "build: bump pubspec version to $TAG"
+#          labels: "bump-pubspec-version"
+#          reviewers: "davidnwaneri"
+#          assignees: "davidnwaneri"
+
 #  log:
 #    needs: draft-release
 #    runs-on: ubuntu-latest
