@@ -52,34 +52,36 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-      - uses: actions-ecosystem/action-regex-match@v2
-        id: regex-match
+#      - uses: actions-ecosystem/action-regex-match@v2
+#        id: regex-match
+#        with:
+#          text: ${{ env.TAG }}
+#          regex: '^\d+\.\d+\.\d+(?:[+-]\S+)?$'
+#      - run: echo ${{ steps.regex-match.outputs.match }}
+      - uses: tibdex/github-app-token@v1
+        id: generate-token
         with:
-          text: ${{ env.TAG }}
-          regex: '^\d+\.\d+\.\d+(?:[+-]\S+)?$'
-      - run: echo ${{ steps.regex-match.outputs.match }}
-#      - uses: tibdex/github-app-token@v1
-#        id: generate-token
-#        with:
-#          app_id: ${{ secrets.APP_ID }}
-#          private_key: ${{ secrets.APP_PRIVATE_KEY }}
-#      - name: Bump version
-#        uses: mikefarah/yq@master
-#        with:
-#          cmd: |
-#            tag=${{ env.TAG }}
-#            yq -i '.version = (${{ env.TAG }} | sed -E 's/^v(.*)/\1/'))' pubspec.yaml
-##          cmd: yq -i '.version = ${{ env.TAG }}.match('^\d+\.\d+\.\d+(?:[+-]\S+)?$')' pubspec.yaml
-#      - name: Create Pull Request to bump version in pubspec.yaml
-#        uses: peter-evans/create-pull-request@v5
-#        with:
-#          token: ${{ steps.generate-token.outputs.token }}
-#          branch: "bump-pubspec-version"
-#          commit-message: "build: bump pubspec version to ${{ env.TAG }}"
-#          title: "build: bump pubspec version to ${{ env.TAG }}"
-#          labels: "bump-pubspec-version"
-#          reviewers: "davidnwaneri"
-#          assignees: "davidnwaneri"
+          app_id: ${{ secrets.APP_ID }}
+          private_key: ${{ secrets.APP_PRIVATE_KEY }}
+      - name: Bump version
+        uses: mikefarah/yq@master
+        with:
+          cmd: |
+            tag=${{ env.TAG }}
+            new_tag1=${tag:1}
+            new_tag2=$(echo "v1.2.3" | sed "s/[[:alpha:]]//g")
+            yq -i '.version = "$new_tag2"' pubspec.yaml
+#          cmd: yq -i '.version = ${{ env.TAG }}.match('^\d+\.\d+\.\d+(?:[+-]\S+)?$')' pubspec.yaml
+      - name: Create Pull Request to bump version in pubspec.yaml
+        uses: peter-evans/create-pull-request@v5
+        with:
+          token: ${{ steps.generate-token.outputs.token }}
+          branch: "bump-pubspec-version"
+          commit-message: "build: bump pubspec version to ${{ env.TAG }}"
+          title: "build: bump pubspec version to ${{ env.TAG }}"
+          labels: "bump-pubspec-version"
+          reviewers: "davidnwaneri"
+          assignees: "davidnwaneri"
 
 #  check-for-draft-release:
 #    needs: draft-release
