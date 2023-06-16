@@ -57,7 +57,7 @@ jobs:
       - run: |
           echo "Checking for draft release"
           eval tag=$(gh release list | grep -n $TAG)
-          eval draft=$(gh release list | grep -in draft)
+          eval draft=$(gh release list | grep -i -n draft)
           
           echo "Running conditionals"
           if [[ $tag == $draft ]]; then
