@@ -47,8 +47,8 @@ jobs:
     runs-on: ubuntu-latest
     if: contains(needs.draft-release.outputs.url, 'untagged')
 #    && github.event.pull_request.merged == true
-    env:
-      TAG: ${{ needs.check-for-draft-release.outputs.tag }}
+#    env:
+#      TAG: ${{ needs.check-for-draft-release.outputs.tag }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -60,14 +60,14 @@ jobs:
       - name: Bump version
         uses: mikefarah/yq@master
         with:
-          cmd: yq -i '.version = "${{ env.TAG }}"' pubspec.yaml
+          cmd: yq -i '.version = "${{ needs.check-for-draft-release.outputs.tag }}"' pubspec.yaml
       - name: Create Pull Request to bump version in pubspec.yaml
         uses: peter-evans/create-pull-request@v5
         with:
           token: ${{ steps.generate-token.outputs.token }}
           branch: "bump-pubspec-version"
-          commit-message: "build: bump pubspec version to ${{ env.TAG }}"
-          title: "build: bump pubspec version to ${{ env.TAG }}"
+          commit-message: "build: bump pubspec version to ${{ needs.check-for-draft-release.outputs.tag }}"
+          title: "build: bump pubspec version to ${{ needs.check-for-draft-release.outputs.tag }}"
           labels: "bump-pubspec-version"
           reviewers: "davidnwaneri"
           assignees: "davidnwaneri"
