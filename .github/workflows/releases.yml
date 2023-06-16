@@ -50,19 +50,22 @@ jobs:
     outputs:
       draft-is-present: ${{ steps.check-for-draft-release.outputs.draft }}
       tag: ${{ steps.check-for-draft-release.outputs.tag }}
+    env:
+      TAG: ${{ needs.draft-release.outputs.tag }}
     steps:
       - uses: actions/checkout@v3
       - run: |
-          tag=gh release list | grep -n ${{ needs.draft-release.outputs.tag }}
+          tag=gh release list | grep -n $TAG
           draft=gh release list | grep -in draft
           
           if [[ $tag == $draft ]]; then
-            echo "tag='${{ needs.draft-release.outputs.tag }}'" >> $GITHUB_OUTPUT
-            echo "draft='true'" >> $GITHUB_OUTPUT
+            echo "tag=$TAG" >> $GITHUB_OUTPUT
+            echo "draft=true" >> $GITHUB_OUTPUT
           else
-            echo "tag='${{ needs.draft-release.outputs.tag }}'" >> $GITHUB_OUTPUT
-            echo "draft='false'" >> $GITHUB_OUTPUT
+            echo "tag=$TAG" >> $GITHUB_OUTPUT
+            echo "draft=false" >> $GITHUB_OUTPUT
           fi
+        id: check-for-draft-release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 #      - uses: cardinalby/git-get-release-action@v1
