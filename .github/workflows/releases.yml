@@ -60,8 +60,10 @@ jobs:
       - name: Bump version
         uses: mikefarah/yq@master
         with:
-#          cmd: yq -i '.version = (${{ env.TAG }}) pubspec.yaml
-          cmd: yq -i '.version = ${{ env.TAG }}.match('^\d+\.\d+\.\d+(?:[+-]\S+)?$')' pubspec.yaml
+          cmd: |
+            tag=${{ env.TAG }}
+            yq -i '.version = "${{ env.TAG }} | sed -E 's/^v(.*)/\1/')"' pubspec.yaml
+#          cmd: yq -i '.version = ${{ env.TAG }}.match('^\d+\.\d+\.\d+(?:[+-]\S+)?$')' pubspec.yaml
       - name: Create Pull Request to bump version in pubspec.yaml
         uses: peter-evans/create-pull-request@v5
         with:
