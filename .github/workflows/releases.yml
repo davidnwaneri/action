@@ -65,7 +65,8 @@ jobs:
             tag_without_v="${tag#v}"
             echo "tag_without_v=$tag_without_v"
             echo $tag
-            yq -i '.version = "${{ env.TAG }}"' pubspec.yaml
+            echo tag
+            yq -i ".version = ["${{ env.TAG }}"].match('^\d+\.\d+\.\d+(?:[+-]\S+)?$')" pubspec.yaml
       - name: Create Pull Request to bump version in pubspec.yaml
         uses: peter-evans/create-pull-request@v5
         with:
