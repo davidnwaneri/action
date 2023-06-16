@@ -53,11 +53,13 @@ jobs:
     env:
       TAG: ${{ needs.draft-release.outputs.tag }}
     steps:
-      - uses: actions/checkout@v3
-#      - name: Run grep
-#        id: grep
-#        run: gh release list | grep -n $TAG echo
-      - run: |
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Check for draft release
+        id: check-for-draft-release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
           echo "Checking for draft release"
           tag=$(gh release list | grep -n $TAG)
           draft=$(gh release list | grep -in draft)
@@ -77,9 +79,6 @@ jobs:
 #            echo "draft=false" >> $GITHUB_OUTPUT
           fi
           echo "Finished conditionals"
-        id: check-for-draft-release
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 #      - uses: cardinalby/git-get-release-action@v1
 #        id: git-get-release
 #        env:
