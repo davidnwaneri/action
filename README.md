@@ -1,6 +1,7 @@
 # action
 
 ![example branch parameter](https://github.com/davidnwaneri/action/actions/workflows/main.yml/badge.svg?branch=main)
+[![.github/workflows/releases.yml](https://github.com/davidnwaneri/action/actions/workflows/releases.yml/badge.svg)](https://github.com/davidnwaneri/action/actions/workflows/releases.yml)
 
 A new Flutter project.
 
