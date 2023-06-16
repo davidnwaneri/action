@@ -53,17 +53,17 @@ jobs:
     steps:
       - uses: cardinalby/git-get-release-action@v1
         id: git-get-release
-      - name: Check for draft release
-        id: check-for-draft-release
-        run: |
-          echo "draft='${{ steps.git-get-release.outputs.draft }}'" >> $GITHUB_OUTPUT
-          echo "tag='${{ steps.git-get-release.outputs.tag_name }}'" >> $GITHUB_OUTPUT
         env:
           GITHUB_TOKEN: ${{ github.token }}
         with:
           draft: true
           doNotFailIfNotFound: true
           tag: ${{ needs.draft-release.outputs.tag }}
+      - name: Check for draft release
+        id: check-for-draft-release
+        run: |
+          echo "draft='${{ steps.git-get-release.outputs.draft }}'" >> $GITHUB_OUTPUT
+          echo "tag='${{ steps.git-get-release.outputs.tag_name }}'" >> $GITHUB_OUTPUT
 
   bump-version-pr:
     permissions: write-all
