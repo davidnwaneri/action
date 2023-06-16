@@ -55,8 +55,8 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - run: |
-          tag=${{ gh release list | grep -n $TAG }}
-          draft=${{ gh release list | grep -in draft }}
+          tag=$(gh release list | grep -n $TAG)
+          draft=$(gh release list | grep -in draft)
           
           if [[ $tag == $draft ]]; then
             echo "tag=$TAG" >> $GITHUB_OUTPUT
