@@ -55,14 +55,18 @@ jobs:
         with:
           draft: true
           doNotFailIfNotFound: true
-          releaseName: $TAG
-          tag: $TAG
+#          releaseName: $TAG
+          tag: ${{ needs.draft-release.outputs.tag }}
       - name: Check for draft release
         id: check-for-draft-release
         run: |
           echo "draft='${{ steps.git-get-release.outputs.draft }}'" >> $GITHUB_OUTPUT
           echo "tag='${{ steps.git-get-release.outputs.tag_name }}'" >> $GITHUB_OUTPUT
-          echo ${{ steps.git-get-release.outputs }}
+          echo ${{ steps.git-get-release.outputs.draft }}
+          echo ${{ steps.git-get-release.outputs.id }}
+          echo ${{ steps.git-get-release.outputs.node_id }}
+          echo ${{ steps.git-get-release.outputs.tag_name }}
+          echo ${{ steps.git-get-release.outputs.name }}
 
 #      - name: Check for draft release
 #        id: check-for-draft-release
