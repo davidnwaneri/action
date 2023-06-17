@@ -45,7 +45,7 @@ jobs:
     permissions: write-all
     needs: draft-release
     runs-on: ubuntu-latest
-    if: contains(needs.draft-release.outputs.url, 'untagged') && github.event.action != 'opened' && github.event.action != 'edited' && github.event.action != 'reopened'
+    if: contains(needs.draft-release.outputs.url, 'untagged') && github.event.action != 'opened' && github.event.action != 'edited' && github.event.action != 'reopened' && $GITHUB_HEAD_REF != 'bump-pubspec-version'
     env:
       TAG: ${{ needs.draft-release.outputs.tag }}
     steps:
