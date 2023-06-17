@@ -50,7 +50,7 @@ jobs:
       github.event.action != 'opened' && 
       github.event.action != 'edited' && 
       github.event.action != 'reopened' && 
-      env.GITHUB_HEAD_REF != 'bump-pubspec-version'
+      GITHUB_HEAD_REF != 'bump-pubspec-version'
     env:
       TAG: ${{ needs.draft-release.outputs.tag }}
     steps:
