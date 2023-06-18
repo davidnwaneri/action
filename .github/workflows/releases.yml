@@ -50,7 +50,7 @@ jobs:
     if: |
       contains(needs.draft-release.outputs.url, 'untagged') &&
       github.event_name == 'push' &&
-      github.ref == 'main' &&
+      github.ref_name == 'main' &&
       github.head_ref != 'bump-pubspec-version'
     env:
       TAG: ${{ needs.draft-release.outputs.tag }}
