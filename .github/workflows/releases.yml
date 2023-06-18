@@ -49,7 +49,6 @@ jobs:
     runs-on: ubuntu-latest
     if: |
       contains(needs.draft-release.outputs.url, 'untagged') &&
-      github.event.action == 'merged' &&
       github.event_name == 'push' &&
       github.ref == 'main' &&
       github.head_ref != 'bump-pubspec-version'
