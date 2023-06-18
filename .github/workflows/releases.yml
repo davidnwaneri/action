@@ -48,15 +48,16 @@ jobs:
       create-pr: ${{ steps.bump-version.outputs.create-pr }}
     runs-on: ubuntu-latest
     if: |
-      contains(needs.draft-release.outputs.url, 'untagged') && 
-      github.event.action != 'opened' && 
-      github.event.action != 'edited' && 
-      github.event.action != 'reopened' && 
+      contains(needs.draft-release.outputs.url, 'untagged') &&
+      github.event.action == 'merged' &&
+      github.event_name == 'push' &&
+      github.ref == 'main' &&
       github.head_ref != 'bump-pubspec-version'
     env:
       TAG: ${{ needs.draft-release.outputs.tag }}
     steps:
       - run: echo ${{ github.ref_name }}
+      - run: echo ${{ github.ref }}
       - run: echo ${{ github.head_ref }}
       - run: echo ${{ contains(needs.draft-release.outputs.url, 'untagged') }}
       - run: echo ${{ github.event.action }}
