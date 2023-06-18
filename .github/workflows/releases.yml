@@ -77,7 +77,7 @@ jobs:
             current_pubspec_version=$(yq '.version' pubspec.yaml)
             
             if [[ $tag == *"$current_pubspec_version" ]]; then
-              echo "Version already bumped"
+              echo "::debug::Version already bumped"
               echo "create-pr=false" >> $GITHUB_OUTPUT
             else
               echo "Bumping version to $tag"
