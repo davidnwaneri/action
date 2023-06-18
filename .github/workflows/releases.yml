@@ -55,6 +55,7 @@ jobs:
       TAG: ${{ needs.draft-release.outputs.tag }}
     steps:
       - run: echo ${{ github.ref_name }}
+      - run: echo ${{ github.head_ref }}
       - run: echo ${{ contains(needs.draft-release.outputs.url, 'untagged') }}
       - run: echo ${{ github.event.action }}
       - name: Checkout code
