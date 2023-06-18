@@ -44,6 +44,8 @@ jobs:
   bump-version-pr:
     permissions: write-all
     needs: draft-release
+    outputs:
+      create-pr: ${{ steps.bump-version.outputs.create-pr }}
     runs-on: ubuntu-latest
     if: |
       contains(needs.draft-release.outputs.url, 'untagged') && 
@@ -67,12 +69,23 @@ jobs:
           app_id: ${{ secrets.APP_ID }}
           private_key: ${{ secrets.APP_PRIVATE_KEY }}
       - name: Bump version
+        id: bump-version
         uses: mikefarah/yq@master
         with:
           cmd: |
             tag=${{ env.TAG }}
-            version=$(echo "$tag" | sed "s/[[:alpha:]]//g") yq -i '.version = env(version)' pubspec.yaml
+            current_pubspec_version=$(yq '.version' pubspec.yaml)
+            
+            if [[ $tag == *"$current_pubspec_version" ]]; then
+              echo "Version already bumped"
+              echo "create-pr=false" >> $GITHUB_OUTPUT
+            else
+              echo "Bumping version to $tag"
+              version=$(echo "$tag" | sed "s/[[:alpha:]]//g") yq -i '.version = env(version)' pubspec.yaml
+              echo "create-pr=true" >> $GITHUB_OUTPUT
+            fi
       - name: Create Pull Request to bump version in pubspec.yaml
+        if: steps.bump-version.outputs.create-pr == 'true'
         uses: peter-evans/create-pull-request@v5
         with:
           token: ${{ steps.generate-token.outputs.token }}
