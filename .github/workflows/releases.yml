@@ -50,7 +50,7 @@ jobs:
       (github.event.action != 'opened' || 
       github.event.action != 'edited' || 
       github.event.action != 'reopened' || 
-      github.ref_name != 'bump-pubspec-version')
+      github.head_ref != 'bump-pubspec-version')
     env:
       TAG: ${{ needs.draft-release.outputs.tag }}
     steps:
@@ -58,6 +58,7 @@ jobs:
       - run: echo ${{ github.head_ref }}
       - run: echo ${{ contains(needs.draft-release.outputs.url, 'untagged') }}
       - run: echo ${{ github.event.action }}
+      - run: echo ${{ github.event_name }}
       - name: Checkout code
         uses: actions/checkout@v3
       - uses: tibdex/github-app-token@v1
