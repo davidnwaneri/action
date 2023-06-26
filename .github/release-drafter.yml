@@ -27,7 +27,7 @@ categories:
 autolabeler:
   - label: 'breaking-change'
     title:
-      - '(\w+(?:[\w\s]+[\w\s]+)?)!:'
+      - '/!:/i'
     body:
       - '/BREAKING CHANGE/i'
   - label: 'enhancement'
