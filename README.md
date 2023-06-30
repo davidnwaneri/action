@@ -2,6 +2,7 @@
 
 ![example branch parameter](https://github.com/davidnwaneri/action/actions/workflows/main.yml/badge.svg?branch=main)
 [![.github/workflows/releases.yml](https://github.com/davidnwaneri/action/actions/workflows/releases.yml/badge.svg)](https://github.com/davidnwaneri/action/actions/workflows/releases.yml)
+[![codecov](https://codecov.io/gh/davidnwaneri/action/branch/main/graph/badge.svg?token=BCRDK6V8tz)](https://codecov.io/gh/davidnwaneri/action)
 
 A new Flutter project.
 
