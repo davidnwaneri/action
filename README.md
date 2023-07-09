@@ -4,8 +4,6 @@
 [![.github/workflows/releases.yml](https://github.com/davidnwaneri/action/actions/workflows/releases.yml/badge.svg)](https://github.com/davidnwaneri/action/actions/workflows/releases.yml)
 [![codecov](https://codecov.io/gh/davidnwaneri/action/branch/main/graph/badge.svg?token=BCRDK6V8tz)](https://codecov.io/gh/davidnwaneri/action)
 
-A new Flutter project.
-
 ## Getting Started
 
 This is a starting point for an application.
