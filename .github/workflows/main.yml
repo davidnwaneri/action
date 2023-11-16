@@ -11,8 +11,11 @@ jobs:
   analyze: # make sure the action works on a clean machine without building
     runs-on: ubuntu-latest
     steps:
+      - run: echo ${{ var.FLUTTER_VERSION }}
       - uses: subosito/flutter-action@v2
         with:
+          flutter-version: ${{ var.FLUTTER_VERSION }}
+          channel: 'stable'
           cache: true
 #          cache-key: ${{ runner.os }}-pub-cache-${{ hashFiles('**/pubspec.lock') }}
       - run: |
